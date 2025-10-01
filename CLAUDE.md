@@ -6,17 +6,9 @@ This file provides guidance to Claude Code when working with the Semiosis reposi
 
 Semiosis is an open-source command-line tool for evaluating LLM agents using Semantic Information Theory (SIT). The framework measures agent viability through trust and budget dynamics rather than simple accuracy metrics.
 
-## GitHub Integration and MCP Setup
+## GitHub Integration
 
-This repository uses **GitHub Issues** for task management and community coordination. **DO NOT** reference Linear issues (ANS-XXX) in commits or discussions - this is an open-source project.
-
-### GitHub MCP Server Setup
-
-To work effectively with this repository, Claude should be configured with the GitHub MCP server:
-
-1. **Repository Access**: `github.com/answerlayer/semiosis`
-2. **Required Permissions**: issues, pull_requests, repos, actions
-3. **Recommended Toolsets**: Enable all standard GitHub toolsets for full functionality
+This repository uses **GitHub Issues** for task management and community coordination.
 
 ### Issue Management Workflow
 
@@ -94,30 +86,6 @@ semiosis evaluate \
     --agent anthropic \
     --interventions noise.add_random,context.remove_elements
 ```
-
-## Implementation Phases
-
-### Phase 1: Core Foundation (Priority: High)
-- [ ] Core Environment Abstraction Interfaces
-- [ ] Agent Abstraction Layer (OpenAI integration)
-- [ ] Context System Foundation (DBT integration)
-- [ ] Text-to-SQL Environment Implementation
-- [ ] CLI Foundation and Basic Evaluation Loop
-
-### Phase 2: Semantic Information Theory (Priority: High)
-- [ ] SIT Engine Implementation
-- [ ] DBT Context Intervention System
-- [ ] Results Visualization and Reporting
-
-### Phase 3: Extensibility (Priority: Medium)
-- [ ] Additional Agent Adapters (Anthropic, local models)
-- [ ] Custom Environment Framework
-- [ ] BIRD-SQL Benchmark Integration
-
-### Phase 4: Community Readiness (Priority: Medium)
-- [ ] Documentation and Community Resources
-- [ ] Plugin Architecture and Extension System
-- [ ] CI/CD Pipeline and Distribution
 
 ## Mathematical Foundation
 
