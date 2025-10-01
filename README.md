@@ -16,13 +16,12 @@ Semiosis is an open-source framework for evaluating how well semantic layers sup
 - **Trust Dynamics**: Performance feedback affecting future decisions
 - **Context Interventions**: Systematic modifications to measure impact
 
-## 🚀 Quick Start
+## 🚀 Vision
+
+When complete, Semiosis will enable evaluation of semantic layers for AI agent performance:
 
 ```bash
-# Install (coming soon to PyPI)
-pip install semiosis
-
-# Evaluate how DBT semantic layers support text-to-SQL agents
+# Future CLI (in development)
 semiosis evaluate \
     --agent openai \
     --agent-args model=gpt-4,api_key=$OPENAI_API_KEY \
@@ -32,14 +31,23 @@ semiosis evaluate \
     --context-args project_path=./my_dbt_project \
     --interventions dbt.add_semantic_model,dbt.remove_documentation
 
-# Results show semantic thresholds and viability curves
+# Expected results: semantic thresholds and viability curves
 # 📊 Agent maintained 85% performance with 60% context removal
 # 🎯 Semantic threshold: η_c = 0.3 (critical information boundary)
 ```
 
-## 🏗️ Architecture
+## 🛠️ Current Status
 
-Semiosis provides a modular framework inspired by the LM Evaluation Harness:
+**Alpha Development**: We're building the core framework. See [GitHub Issues](https://github.com/AnswerLayer/semiosis/issues) for current progress.
+
+**Phase 1 (In Progress)**: Core abstractions and basic evaluation loop  
+**Phase 2 (Planned)**: Semantic Information Theory engine  
+**Phase 3 (Planned)**: Extended integrations and custom environments  
+**Phase 4 (Planned)**: Community features and distribution
+
+## 🏗️ Planned Architecture
+
+Semiosis will provide a modular framework inspired by the LM Evaluation Harness:
 
 - **🌍 Environments**: Define evaluation scenarios (text-to-SQL, code generation, custom domains)
 - **🤖 Agents**: Support multiple LLM providers (OpenAI, Anthropic, local models, remote APIs)
@@ -47,30 +55,30 @@ Semiosis provides a modular framework inspired by the LM Evaluation Harness:
 - **⚡ Interventions**: Systematic context modifications to measure robustness
 - **📈 Viability Engine**: Mathematical framework for measuring agent sustainability
 
-## 🔬 Use Cases
+## 🔬 Planned Use Cases
 
 ### Context Optimization
 ```bash
-# Find minimal context for reliable performance
+# Find minimal context for reliable performance (future feature)
 semiosis evaluate --context dbt --interventions progressive_removal
-# Result: Agent needs only 40% of semantic models for 90% accuracy
+# Expected: Agent needs only 40% of semantic models for 90% accuracy
 ```
 
 ### Multi-Agent Comparison
 ```bash
-# Compare how different agents handle context degradation
+# Compare how different agents handle context degradation (future feature)
 semiosis evaluate --agent openai,anthropic,local --environment custom
-# Result: Claude maintains performance longer under context stress
+# Expected: Claude maintains performance longer under context stress
 ```
 
 ### Production Readiness
 ```bash
-# Test agent robustness before deployment
+# Test agent robustness before deployment (future feature)
 semiosis evaluate --interventions noise,removal,reordering
-# Result: Agent fails below 50% context quality - needs fallback strategy
+# Expected: Agent fails below 50% context quality - needs fallback strategy
 ```
 
-## 📊 What You Get
+## 📊 Expected Results
 
 - **📈 Viability Curves**: How performance degrades with context removal
 - **🎯 Semantic Thresholds**: Critical information boundaries for reliable operation  
@@ -78,7 +86,7 @@ semiosis evaluate --interventions noise,removal,reordering
 - **🔄 Trust Dynamics**: How agents build and lose confidence over time
 - **📊 Intervention Impact**: Quantified effects of context modifications
 
-## 🛠️ Supported Integrations
+## 🛠️ Planned Integrations
 
 ### Agents
 - **OpenAI**: GPT-3.5, GPT-4, GPT-4o with token probability extraction
@@ -93,12 +101,12 @@ semiosis evaluate --interventions noise,removal,reordering
 
 ### Context Systems
 - **DBT**: Data Build Tool semantic layer extraction and manipulation
-- **GraphRAG**: Microsoft's graph-based retrieval augmentation (coming soon)
+- **GraphRAG**: Microsoft's graph-based retrieval augmentation
 - **Custom MCP**: Model Context Protocol server integrations
 
 ## 🧮 Mathematical Foundation
 
-Semiosis implements a rigorous mathematical framework based on semantic information theory:
+Semiosis will implement a rigorous mathematical framework based on semantic information theory:
 
 ```
 Agent state:              𝐚 = (q, y, ℓ, c, b, θ)
@@ -134,7 +142,7 @@ See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
 git clone https://github.com/AnswerLayer/semiosis.git
 cd semiosis
 pip install -e ".[dev]"
-pytest tests/
+# Note: Core framework still in development - tests coming soon
 ```
 
 ## 📚 Citation
