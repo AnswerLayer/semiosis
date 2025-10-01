@@ -1,95 +1,137 @@
-# Semiosis: Semantic Information Theory-based Agent Evaluation Framework
+# Semiosis: Evaluate Semantic Layers for AI Agent Performance
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)
 ![Status](https://img.shields.io/badge/status-alpha-red.svg)
 
-Semiosis is an open-source command-line tool for evaluating LLM agents using Semantic Information Theory (SIT). Inspired by the Sowinsky et al. 2023 paper, it measures how well agents maintain viability through their context systems by analyzing semantic information flow and intervention effects.
+Semiosis is an open-source framework for evaluating how well semantic layers support AI agent performance. Instead of just measuring accuracy, Semiosis reveals which contextual information agents actually need to maintain reliable operation over time.
 
-## 🎯 Core Concept
+## 🎯 Why Semiosis?
 
-Traditional agent evaluation focuses on accuracy metrics. Semiosis evaluates **agent viability** - the ability to maintain performance while managing computational resources through trust and budget dynamics.
+**The Problem**: Traditional AI evaluation focuses on single-shot accuracy. But in production, agents need sustained performance with varying context quality and computational constraints.
 
-### Key Metrics
-
-- **Viability Function**: `V(η) = Pr(ℓ > ℓ_min ∧ b > 0)` - probability of maintaining sufficient trust and budget
-- **Semantic Threshold**: `η_c` - critical information boundary where agent performance degrades
-- **Trust Dynamics**: Performance-based confidence accumulation over time
-- **Budget Management**: Resource consumption and replenishment based on trust
+**The Solution**: Semiosis measures **agent viability** - how well agents maintain performance while managing real-world constraints like:
+- **Incomplete Context**: Missing or degraded semantic information
+- **Resource Limits**: Token budgets and computational costs  
+- **Trust Dynamics**: Performance feedback affecting future decisions
+- **Context Interventions**: Systematic modifications to measure impact
 
 ## 🚀 Quick Start
 
 ```bash
-# Install from PyPI (coming soon)
+# Install (coming soon to PyPI)
 pip install semiosis
 
-# Basic evaluation with OpenAI agent and DBT context
+# Evaluate how DBT semantic layers support text-to-SQL agents
 semiosis evaluate \
     --agent openai \
     --agent-args model=gpt-4,api_key=$OPENAI_API_KEY \
     --environment text-to-sql \
-    --environment-args task_source=spider2,databases=./spider_dbs \
+    --environment-args task_source=spider2 \
     --context dbt \
     --context-args project_path=./my_dbt_project \
     --interventions dbt.add_semantic_model,dbt.remove_documentation
+
+# Results show semantic thresholds and viability curves
+# 📊 Agent maintained 85% performance with 60% context removal
+# 🎯 Semantic threshold: η_c = 0.3 (critical information boundary)
 ```
 
 ## 🏗️ Architecture
 
-Semiosis uses a modular architecture inspired by the LM Evaluation Harness:
+Semiosis provides a modular framework inspired by the LM Evaluation Harness:
 
-- **Environments**: Define evaluation scenarios (text-to-SQL, code generation, custom)
-- **Agents**: Support multiple LLM providers (OpenAI, Anthropic, local models)
-- **Context Systems**: Integration with external knowledge (DBT, GraphRAG, MCP)
-- **Interventions**: Systematic context modifications for semantic analysis
-- **SIT Engine**: Semantic Information Theory calculations and viability analysis
+- **🌍 Environments**: Define evaluation scenarios (text-to-SQL, code generation, custom domains)
+- **🤖 Agents**: Support multiple LLM providers (OpenAI, Anthropic, local models, remote APIs)
+- **📚 Context Systems**: Integration with semantic layers (DBT, GraphRAG, custom MCP servers)
+- **⚡ Interventions**: Systematic context modifications to measure robustness
+- **📈 Viability Engine**: Mathematical framework for measuring agent sustainability
 
-## 📊 Example Results
+## 🔬 Use Cases
 
-![Viability Curve](docs/images/viability_curve.png)
+### Context Optimization
+```bash
+# Find minimal context for reliable performance
+semiosis evaluate --context dbt --interventions progressive_removal
+# Result: Agent needs only 40% of semantic models for 90% accuracy
+```
 
-The semantic threshold (η_c) identifies the critical point where context information becomes essential for agent viability.
+### Multi-Agent Comparison
+```bash
+# Compare how different agents handle context degradation
+semiosis evaluate --agent openai,anthropic,local --environment custom
+# Result: Claude maintains performance longer under context stress
+```
 
-## 🔬 Research Applications
+### Production Readiness
+```bash
+# Test agent robustness before deployment
+semiosis evaluate --interventions noise,removal,reordering
+# Result: Agent fails below 50% context quality - needs fallback strategy
+```
 
-- **Context Optimization**: Find minimal viable information for agent deployment
-- **Robustness Analysis**: Measure agent resilience to context degradation
-- **Resource Planning**: Optimize computational budgets for sustained performance
-- **Comparative Evaluation**: Benchmark agents beyond traditional accuracy metrics
+## 📊 What You Get
+
+- **📈 Viability Curves**: How performance degrades with context removal
+- **🎯 Semantic Thresholds**: Critical information boundaries for reliable operation  
+- **💰 Cost Analysis**: Resource consumption vs. performance tradeoffs
+- **🔄 Trust Dynamics**: How agents build and lose confidence over time
+- **📊 Intervention Impact**: Quantified effects of context modifications
 
 ## 🛠️ Supported Integrations
 
 ### Agents
-- OpenAI (GPT-3.5, GPT-4, GPT-4o)
-- Anthropic (Claude 3.x)
-- Local models (via Hugging Face, vLLM)
-- Remote HTTP/gRPC agents
+- **OpenAI**: GPT-3.5, GPT-4, GPT-4o with token probability extraction
+- **Anthropic**: Claude 3.x models with message API integration
+- **Local Models**: Hugging Face Transformers, vLLM, custom implementations
+- **Remote APIs**: HTTP/gRPC agents with custom authentication
 
 ### Environments  
-- Text-to-SQL (Spider 2.0, BIRD-SQL)
-- Code Generation
-- Custom YAML-defined environments
+- **Text-to-SQL**: Spider 2.0 (632 real-world queries), BIRD-SQL (12,751 examples)
+- **Code Generation**: Test suite integration with execution validation
+- **Custom Domains**: YAML-configurable environments for any evaluation scenario
 
 ### Context Systems
-- DBT (Data Build Tool)
-- GraphRAG (coming soon)
-- Custom MCP integrations
+- **DBT**: Data Build Tool semantic layer extraction and manipulation
+- **GraphRAG**: Microsoft's graph-based retrieval augmentation (coming soon)
+- **Custom MCP**: Model Context Protocol server integrations
 
-## 📖 Documentation
+## 🧮 Mathematical Foundation
 
-- [Getting Started](docs/getting-started/installation.md)
-- [Concepts](docs/concepts/semantic-information-theory.md)
-- [Tutorials](docs/tutorials/text-to-sql-evaluation.md)
-- [API Reference](docs/api-reference/core-classes.md)
+Semiosis implements a rigorous mathematical framework based on semantic information theory:
+
+```
+Agent state:              𝐚 = (q, y, ℓ, c, b, θ)
+Environment state:        𝐞 = (D, Q, T)  
+Context system:           𝒮_η = [s₁, …, sₙ]
+Intervention:             𝒮_η' = 𝒮_η + s_{n+1}
+Agent output:             p_θ(y | q, D, 𝒮_η)
+Token probability:        p_θ(tᵢ | t_{<i}, q, D, 𝒮_η)
+Log-likelihood:           LL_η(t) = Σᵢ log p_θ(tᵢ | t_{<i}, q, D, 𝒮_η)
+Cross-entropy:            H_η = 𝔼[−LL_η(t(q))]
+Trust update:             ℓ' = ℓ + f(LL(t))
+Budget update:            b' = b − c + g(ℓ')
+Viability:                V(η) = Pr(ℓ > ℓ_min ∧ b > 0)
+Semantic threshold:       η_c = inf{η | V(η) ≤ ½V(1)}
+```
+
+Where agents maintain **trust** (ℓ) through performance and **budget** (b) through resource management, with **viability** measuring sustainable operation probability.
 
 ## 🤝 Contributing
 
-We welcome contributions! See our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Key areas for community involvement:
+
+- **🔌 Agent Adapters**: Add support for new LLM providers
+- **🌍 Environments**: Create evaluation scenarios for specific domains  
+- **📚 Context Systems**: Integrate new semantic layer technologies
+- **⚡ Interventions**: Develop novel context modification strategies
+
+See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
 
 ### Development Setup
 
 ```bash
-git clone https://github.com/answerlayer/semiosis.git
+git clone https://github.com/AnswerLayer/semiosis.git
 cd semiosis
 pip install -e ".[dev]"
 pytest tests/
@@ -101,22 +143,24 @@ If you use Semiosis in your research, please cite:
 
 ```bibtex
 @software{semiosis2024,
-  title={Semiosis: Semantic Information Theory-based Agent Evaluation Framework},
+  title={Semiosis: Evaluate Semantic Layers for AI Agent Performance},
   author={AnswerLayer Team},
   year={2024},
-  url={https://github.com/answerlayer/semiosis}
+  url={https://github.com/AnswerLayer/semiosis}
 }
 ```
 
-Original theoretical foundation:
-```bibtex
-@article{sowinski2023semantic,
-  title={Semantic Information in a model of Resource Gathering Agents},
-  author={Sowinski, Damian R. and others},
-  journal={PRX Life},
-  year={2023}
-}
-```
+## 📖 References
+
+This framework builds on foundational work in semantic information theory:
+
+**[1]** Kolchinsky, A. and Wolpert, D.H. Semantic information, autonomous agency, and nonequilibrium statistical physics. *New Journal of Physics*, 20(9):093024, 2018. [arXiv:1806.08053](https://arxiv.org/pdf/1806.08053)
+
+**[2]** Sowinski, D.R., Balasubramanian, V., and Kolchinsky, A. Semantic information in a model of resource gathering agents. *Physical Review E*, 107(4):044404, 2023. [arXiv:2304.03286](https://arxiv.org/pdf/2304.03286)
+
+**[3]** Balasubramanian, V. and Kolchinsky, A. Exo-Daisy World: Revisiting Gaia Theory through an Informational Architecture Perspective. *Planetary Science Journal*, 4(12):236, 2023. [PSJ](https://iopscience.iop.org/article/10.3847/PSJ/ade310)
+
+**[4]** Sowinski, D.R., Frank, A., and Ghoshal, G. Information-theoretic description of a feedback-control Kuramoto model. *Physical Review Research* 6, 043188, 2024. [arXiv:2505.20315](https://arxiv.org/pdf/2505.20315)
 
 ## 📄 License
 
@@ -124,13 +168,12 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🔗 Links
 
-- [GitHub Issues](https://github.com/answerlayer/semiosis/issues) - Bug reports and feature requests
-- [GitHub Discussions](https://github.com/answerlayer/semiosis/discussions) - Community discussion
-- [AnswerLayer](https://answerlayer.com) - Parent organization
-- [Research Paper](https://arxiv.org/abs/2304.03286) - Theoretical foundation
+- **[GitHub Issues](https://github.com/AnswerLayer/semiosis/issues)** - Bug reports and feature requests
+- **[GitHub Discussions](https://github.com/AnswerLayer/semiosis/discussions)** - Community discussion  
+- **[AnswerLayer](https://answerlayer.com)** - Parent organization
 
 ---
 
 **Status**: Alpha - Active development. APIs may change.
 
-**Roadmap**: See [GitHub Projects](https://github.com/answerlayer/semiosis/projects) for current development plan.
+**Roadmap**: See [GitHub Issues](https://github.com/AnswerLayer/semiosis/issues/1) for current development plan.
