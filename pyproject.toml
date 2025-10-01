@@ -46,7 +46,6 @@ dependencies = [
     "tiktoken>=0.5.0",
     # Environment dependencies
     "sqlparse>=0.4.0",
-    "sqlite3",  # Built-in, but listed for clarity
     # Context dependencies
     "dbt-core>=1.7.0",
     # Analysis dependencies
