@@ -1,108 +1,95 @@
-# Semiosis: Evaluate Semantic Layers for AI Agent Performance
+# Semiosis: Unit Testing for Documentation Quality
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)
 ![Status](https://img.shields.io/badge/status-alpha-red.svg)
 
-Semiosis is an open-source framework for evaluating how well semantic layers support AI agent performance. Instead of just measuring accuracy, Semiosis reveals which contextual information agents actually need to maintain reliable operation over time.
+Semiosis is an open-source framework for measuring the semantic quality of static documentation and context systems. Think "unit testing for your knowledge base" - Semiosis reveals how much information is redundant, what's critical, and where your documentation breaks down.
 
 ## 🎯 Why Semiosis?
 
-**The Problem**: Traditional AI evaluation focuses on single-shot accuracy. But in production, agents need sustained performance with varying context quality and computational constraints.
+**The Problem**: You've built extensive documentation (DBT projects, API docs, knowledge bases) but don't know if it's actually good. Is there redundancy? What happens if parts go missing? Is it token-efficient?
 
-**The Solution**: Semiosis measures **agent viability** - how well agents maintain performance while managing real-world constraints like:
-- **Incomplete Context**: Missing or degraded semantic information
-- **Resource Limits**: Token budgets and computational costs  
-- **Trust Dynamics**: Performance feedback affecting future decisions
-- **Context Interventions**: Systematic modifications to measure impact
+**The Solution**: Semiosis measures **context system quality** using standardized LLM probes to evaluate:
+- **Completeness**: Does your documentation cover all necessary concepts?
+- **Redundancy**: How much can you remove while maintaining performance?  
+- **Semantic Density**: How much information per documentation unit?
+- **Robustness**: How gracefully does performance degrade as context is removed?
+- **Critical Boundaries**: What's the minimum viable documentation set?
 
 ## 🚀 Vision
 
-When complete, Semiosis will enable evaluation of semantic layers for AI agent performance:
+When complete, Semiosis will provide comprehensive documentation quality analysis:
 
 ```bash
-# Future CLI (in development)
+# Analyze your DBT project documentation quality
 semiosis evaluate \
-    --agent openai \
-    --agent-args model=gpt-4,api_key=$OPENAI_API_KEY \
-    --environment text-to-sql \
-    --environment-args task_source=spider2 \
     --context dbt \
     --context-args project_path=./my_dbt_project \
-    --interventions dbt.add_semantic_model,dbt.remove_documentation
+    --environment text-to-sql \
+    --interventions progressive_removal,schema_corruption
 
-# Expected results: semantic thresholds and viability curves
-# 📊 Agent maintained 85% performance with 60% context removal
-# 🎯 Semantic threshold: η_c = 0.3 (critical information boundary)
+# Expected results: context quality report
+# 📊 Baseline Performance: 94% (excellent documentation)
+# 🎯 Semantic threshold: η_c = 0.35 (robust to 65% removal)
+# 💎 Critical components: schema.yml files (high impact)
+# 📈 Redundancy: Column descriptions (medium overlap)
+# 🏆 Benchmark: 75th percentile vs industry average
 ```
 
-## 🛠️ Current Status
+## 🏗️ Architecture
 
-**Alpha Development**: We're building the core framework. See [GitHub Issues](https://github.com/AnswerLayer/semiosis/issues) for current progress.
-
-**Phase 1 (In Progress)**: Core abstractions and basic evaluation loop  
-**Phase 2 (Planned)**: Semantic Information Theory engine  
-**Phase 3 (Planned)**: Extended integrations and custom environments  
-**Phase 4 (Planned)**: Community features and distribution
-
-## 🏗️ Planned Architecture
-
-Semiosis will provide a modular framework inspired by the LM Evaluation Harness:
+Semiosis provides a modular framework for context quality measurement:
 
 - **🌍 Environments**: Define evaluation scenarios (text-to-SQL, code generation, custom domains)
-- **🤖 Agents**: Support multiple LLM providers (OpenAI, Anthropic, local models, remote APIs)
-- **📚 Context Systems**: Integration with semantic layers (DBT, GraphRAG, custom MCP servers)
-- **⚡ Interventions**: Systematic context modifications to measure robustness
-- **📈 Viability Engine**: Mathematical framework for measuring agent sustainability
+- **🤖 Standardized Probes**: Built-in LLM agents as measurement instruments
+- **📚 Context Systems**: Integration with documentation sources (DBT, API docs, knowledge bases)
+- **⚡ Interventions**: Systematic context modifications (removal, corruption, reordering)
+- **📈 Quality Engine**: Mathematical framework for measuring semantic information density
 
 ## 🔬 Planned Use Cases
 
-### Context Optimization
+### Documentation Optimization
 ```bash
-# Find minimal context for reliable performance (future feature)
+# Find minimal documentation set for reliable performance
 semiosis evaluate --context dbt --interventions progressive_removal
-# Expected: Agent needs only 40% of semantic models for 90% accuracy
+# Expected: Need only 40% of semantic models for 90% accuracy
 ```
 
-### Multi-Agent Comparison
+### Pre-Deployment Validation
 ```bash
-# Compare how different agents handle context degradation (future feature)
-semiosis evaluate --agent openai,anthropic,local --environment custom
-# Expected: Claude maintains performance longer under context stress
-```
-
-### Production Readiness
-```bash
-# Test agent robustness before deployment (future feature)
-semiosis evaluate --interventions noise,removal,reordering
-# Expected: Agent fails below 50% context quality - needs fallback strategy
+# Test documentation robustness before agent deployment
+semiosis evaluate --interventions corruption,missing_schemas,outdated_docs
+# Expected: Performance drops to 60% with 30% schema corruption
 ```
 
 ## 📊 Expected Results
 
-- **📈 Viability Curves**: How performance degrades with context removal
-- **🎯 Semantic Thresholds**: Critical information boundaries for reliable operation  
-- **💰 Cost Analysis**: Resource consumption vs. performance tradeoffs
-- **🔄 Trust Dynamics**: How agents build and lose confidence over time
-- **📊 Intervention Impact**: Quantified effects of context modifications
+- **📈 Quality Curves**: How performance degrades with documentation removal
+- **🎯 Semantic Thresholds**: Critical information boundaries (η_c values)
+- **💎 Component Analysis**: Which documentation sections are most valuable
+- **📊 Redundancy Maps**: What information overlaps and can be consolidated
+- **🏆 Benchmarking**: How your context compares to industry standards
+- **⚡ Intervention Impact**: Quantified effects of specific documentation changes
 
 ## 🛠️ Planned Integrations
 
-### Agents
-- **OpenAI**: GPT-3.5, GPT-4, GPT-4o with token probability extraction
-- **Anthropic**: Claude 3.x models with message API integration
-- **Local Models**: Hugging Face Transformers, vLLM, custom implementations
-- **Remote APIs**: HTTP/gRPC agents with custom authentication
+### Standardized Measurement Probes
+- **Anthropic Claude**: Claude-3.5 Sonnet, Claude-3 Haiku with logprobs extraction
+- **OpenAI**: GPT-4, GPT-4o with token probability measurement
+- **Open Source**: Llama, Mistral via Hugging Face Inference API
+- **Cloud Platforms**: AWS Bedrock, Google Vertex AI for enterprise deployment
 
-### Environments  
-- **Text-to-SQL**: Spider 2.0 (632 real-world queries), BIRD-SQL (12,751 examples)
-- **Code Generation**: Test suite integration with execution validation
-- **Custom Domains**: YAML-configurable environments for any evaluation scenario
+### Evaluation Environments  
+- **Text-to-SQL**: Spider 2.0, BIRD-SQL datasets for database query generation
+- **Code Generation**: Programming task evaluation with execution validation
+- **Custom Domains**: YAML-configurable environments for any documentation type
 
-### Context Systems
-- **DBT**: Data Build Tool semantic layer extraction and manipulation
-- **GraphRAG**: Microsoft's graph-based retrieval augmentation
-- **Custom MCP**: Model Context Protocol server integrations
+### Documentation Sources
+- **DBT Projects**: Schema definitions, model docs, semantic layer analysis
+- **API Documentation**: OpenAPI specs, endpoint descriptions, parameter definitions
+- **Knowledge Bases**: Markdown files, wikis, technical documentation
+- **Custom Sources**: Any structured documentation via plugins
 
 ## 🧮 Mathematical Foundation
 
@@ -129,10 +116,8 @@ Where agents maintain **trust** (ℓ) through performance and **budget** (b) thr
 
 We welcome contributions! Key areas for community involvement:
 
-- **🔌 Agent Adapters**: Add support for new LLM providers
 - **🌍 Environments**: Create evaluation scenarios for specific domains  
-- **📚 Context Systems**: Integrate new semantic layer technologies
-- **⚡ Interventions**: Develop novel context modification strategies
+- **📚 Context Systems**: Integrate new semantic layer/knowledgebase/documentation technologiess
 
 See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
 
@@ -150,10 +135,10 @@ pip install -e ".[dev]"
 If you use Semiosis in your research, please cite:
 
 ```bibtex
-@software{semiosis2024,
+@software{semiosis2025,
   title={Semiosis: Evaluate Semantic Layers for AI Agent Performance},
   author={AnswerLayer Team},
-  year={2024},
+  year={2025},
   url={https://github.com/AnswerLayer/semiosis}
 }
 ```
