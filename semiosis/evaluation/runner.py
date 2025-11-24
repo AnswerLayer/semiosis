@@ -10,6 +10,7 @@ from semiosis.agents.base import BaseAgent, AgentState
 from semiosis.environments.base import BaseEnvironment, Task, EvaluationResult
 from semiosis.contexts.base import BaseContextSystem, ContextElement
 from semiosis.interventions.base import BaseIntervention
+from semiosis.sit.engine import SemioticEvaluator
 
 
 class EvaluationRunner:
@@ -38,6 +39,8 @@ class EvaluationRunner:
         self.interventions = interventions or []
         self.results = []
         self.agent_states = []
+        self.semiotic_evaluator = SemioticEvaluator()
+        self.current_trust = 50.0  # Starting trust value
         
     def run_evaluation(self) -> Dict[str, Any]:
         """
@@ -81,11 +84,16 @@ class EvaluationRunner:
             # Evaluate the response
             evaluation_result = task_evaluator.evaluate(task, agent_response.output)
             
+            # Update trust based on evaluation result
+            self.current_trust = self.semiotic_evaluator.update_trust(
+                self.current_trust, evaluation_result
+            )
+            
             # Track agent state (for SIT calculations)
             agent_state = AgentState(
                 query=task.query,
                 output=agent_response.output,
-                trust=evaluation_result.score,  # Simplified: using score as initial trust
+                trust=self.current_trust,  # Trust based on evaluation feedback
                 cost=agent_response.cost,
                 budget=100.0,  # Placeholder budget
                 parameters=self.agent.config
