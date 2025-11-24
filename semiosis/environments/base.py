@@ -45,6 +45,16 @@ class EvaluationResult:
     details: Optional[Dict[str, Any]] = None
     error: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    
+    @property
+    def correct(self) -> bool:
+        """
+        Whether the response was correct.
+        
+        Returns:
+            True if the response was correct (success and score >= 0.5)
+        """
+        return self.success and self.score >= 0.5
 
 
 @dataclass

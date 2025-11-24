@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Callable, Optional
 import numpy as np
 from scipy import stats
 from semiosis.agents.base import AgentState
+from semiosis.environments.base import EvaluationResult
 
 
 @dataclass
@@ -115,18 +116,28 @@ class SemioticEvaluator:
         
         return log_likelihood
     
-    def update_trust(self, current_trust: float, log_likelihood: float) -> float:
+    def update_trust(self, current_trust: float, evaluation_result: EvaluationResult) -> float:
         """
-        Update trust based on log-likelihood of agent output.
+        Update trust based on evaluation feedback from environment.
+        
+        Trust reflects agent alignment with the environment rather than
+        internal model confidence. High trust means the agent consistently
+        produces correct responses given the available context.
         
         Args:
             current_trust: Current trust value
-            log_likelihood: Log-likelihood of agent's response
+            evaluation_result: EvaluationResult from environment evaluation
             
         Returns:
             Updated trust value
         """
-        trust_delta = self.trust_config.update_function(log_likelihood)
+        if evaluation_result.correct:
+            # Reward correct responses - proportional to score quality
+            trust_delta = evaluation_result.score * 2.0
+        else:
+            # Penalize incorrect responses
+            trust_delta = -1.0
+            
         new_trust = current_trust + trust_delta
         
         # Apply bounds
