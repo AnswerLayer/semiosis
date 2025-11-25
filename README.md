@@ -130,6 +130,59 @@ pip install -e ".[dev]"
 # Note: Core framework still in development - tests coming soon
 ```
 
+## 🔑 API Key Setup
+
+Semiosis requires API keys for the standardized LLM measurement probes. Set up your credentials:
+
+### Anthropic Claude (Recommended)
+
+```bash
+# Option 1: Environment variable (recommended)
+export ANTHROPIC_API_KEY=sk-ant-api03-your-key-here
+
+# Option 2: Use .env file (copy from template)
+cp .env.example .env
+# Edit .env with your actual API keys
+
+# Option 3: Configuration file
+# config.yaml
+agent:
+  type: anthropic
+  args:
+    api_key: sk-ant-api03-your-key-here
+    model: claude-3-5-sonnet-20241022  # or claude-opus-4-5
+```
+
+### Usage Examples
+
+```bash
+# Analyze your DBT project with Claude
+export ANTHROPIC_API_KEY=sk-ant-api03-...
+semiosis evaluate \
+    --context dbt \
+    --context-args project_path=./my_dbt_project \
+    --environment text-to-sql
+
+# Use latest Claude 4.5 models  
+semiosis evaluate \
+    --context dbt \
+    --context-args project_path=./my_dbt_project \
+    --agent-args model=claude-opus-4-5,temperature=0.1
+```
+
+### Supported Models
+
+- **Claude 4.x**: `claude-opus-4-5`, `claude-sonnet-4-5`, `claude-haiku-4-5` (latest)
+- **Claude 3.5**: `claude-3-5-sonnet-20241022`, `claude-3-5-haiku-20241022` (stable)
+- **Claude 3**: `claude-3-opus-20240229`, `claude-3-sonnet-20240229` (legacy)
+
+### Getting API Keys
+
+1. **Anthropic**: Visit [console.anthropic.com](https://console.anthropic.com) to get your API key
+2. **Pricing**: See [anthropic.com/pricing](https://www.anthropic.com/pricing) for current rates
+
+⚠️ **Security**: Never commit API keys to version control. Use environment variables or local config files.
+
 ## 📚 Citation
 
 If you use Semiosis in your research, please cite:
