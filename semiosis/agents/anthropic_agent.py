@@ -5,6 +5,7 @@ This module implements the AnthropicAgent class for Claude models with
 logprob extraction and usage-based cost calculation.
 """
 
+import os
 import time
 import random
 from typing import Dict, Any, Optional
@@ -36,12 +37,15 @@ class AnthropicAgent(BaseAgent):
         """
         super().__init__(config)
         
-        # Extract configuration
-        self.api_key = config.get("api_key")
+        # Extract configuration - try config first, then environment variable
+        self.api_key = config.get("api_key") or os.getenv("ANTHROPIC_API_KEY")
         if not self.api_key:
-            raise ValueError("Anthropic API key is required")
+            raise ValueError(
+                "Anthropic API key is required. Provide via config 'api_key' or "
+                "set ANTHROPIC_API_KEY environment variable."
+            )
         
-        self.model = config.get("model", "claude-3-5-sonnet-20241022")
+        self.model = config.get("model", "claude-3-5-sonnet-20241022")  # Default to stable 3.5 model
         self.temperature = config.get("temperature", 0.1)
         self.max_tokens = config.get("max_tokens", 1000)
         self.top_p = config.get("top_p", 1.0)
@@ -65,6 +69,26 @@ class AnthropicAgent(BaseAgent):
             Dictionary with model pricing (per 1M tokens)
         """
         return {
+            # Claude 4.x Models (latest generation, 2024-2025)
+            "claude-opus-4-5": {
+                "input": 5.00,   # $5 per 1M input tokens (90% cost reduction vs 4.1)
+                "output": 25.00  # $25 per 1M output tokens
+            },
+            "claude-sonnet-4-5": {
+                "input": 3.00,   # $3 per 1M input tokens  
+                "output": 15.00  # $15 per 1M output tokens
+            },
+            "claude-haiku-4-5": {
+                "input": 1.00,   # $1 per 1M input tokens
+                "output": 5.00   # $5 per 1M output tokens
+            },
+            "claude-opus-4-1": {
+                "input": 5.00,   # $5 per 1M input tokens
+                "output": 25.00, # $25 per 1M output tokens  
+                "thinking": 10.00 # $10 per 1M thinking tokens
+            },
+            
+            # Claude 3.5 Models (stable)
             "claude-3-5-sonnet-20241022": {
                 "input": 3.00,   # $3 per 1M input tokens
                 "output": 15.00  # $15 per 1M output tokens
@@ -73,9 +97,19 @@ class AnthropicAgent(BaseAgent):
                 "input": 1.00,   # $1 per 1M input tokens  
                 "output": 5.00   # $5 per 1M output tokens
             },
+            
+            # Claude 3 Models (legacy)
             "claude-3-opus-20240229": {
                 "input": 15.00,  # $15 per 1M input tokens
                 "output": 75.00  # $75 per 1M output tokens
+            },
+            "claude-3-sonnet-20240229": {
+                "input": 3.00,   # $3 per 1M input tokens
+                "output": 15.00  # $15 per 1M output tokens
+            },
+            "claude-3-haiku-20240307": {
+                "input": 0.25,   # $0.25 per 1M input tokens
+                "output": 1.25   # $1.25 per 1M output tokens
             }
         }
     
@@ -320,7 +354,12 @@ class AnthropicAgent(BaseAgent):
         input_cost = (response.usage.input_tokens / 1_000_000) * model_pricing["input"]
         output_cost = (response.usage.output_tokens / 1_000_000) * model_pricing["output"]
         
-        return input_cost + output_cost
+        # Add thinking token cost for Claude 4.1 (if present)
+        thinking_cost = 0.0
+        if "thinking" in model_pricing and hasattr(response.usage, 'thinking_tokens') and response.usage.thinking_tokens:
+            thinking_cost = (response.usage.thinking_tokens / 1_000_000) * model_pricing["thinking"]
+        
+        return input_cost + output_cost + thinking_cost
     
     def get_cost_estimate(self, query: str, response: str) -> float:
         """
