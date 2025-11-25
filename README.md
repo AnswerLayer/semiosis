@@ -117,7 +117,7 @@ Where agents maintain **trust** (ℓ) through performance and **budget** (b) thr
 We welcome contributions! Key areas for community involvement:
 
 - **🌍 Environments**: Create evaluation scenarios for specific domains  
-- **📚 Context Systems**: Integrate new semantic layer/knowledgebase/documentation technologiess
+- **📚 Context Systems**: Integrate new semantic layer/knowledgebase/documentation technologies
 
 See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
 
