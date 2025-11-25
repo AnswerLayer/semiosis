@@ -31,6 +31,13 @@ def create_agent(config: Dict[str, Any]) -> BaseAgent:
     elif agent_type == 'anthropic':
         from semiosis.agents.anthropic_agent import AnthropicAgent
         return AnthropicAgent(agent_args)
+    elif agent_type == 'ollama':
+        from semiosis.agents.ollama_agent import OllamaAgent
+        return OllamaAgent(agent_args)
+    elif agent_type == 'local':
+        # Alias for ollama (user-friendly name)
+        from semiosis.agents.ollama_agent import OllamaAgent
+        return OllamaAgent(agent_args)
     else:
         # For now, return a mock agent for other types
         # This will be expanded as more agent types are implemented
