@@ -182,8 +182,6 @@ Based on Sowinsky et al. 2023 "Semantic Information in a model of Resource Gathe
 ### API Key Management
 - Store API keys in environment variables only
 - Use `.env` files for local development (git-ignored)
-- Implement proper rate limiting for all API integrations
-- Handle API failures gracefully with exponential backoff
 
 ### Code Execution Security
 - Sandbox SQL execution in isolated environments
