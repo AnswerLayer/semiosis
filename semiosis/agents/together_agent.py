@@ -226,28 +226,29 @@ class TogetherAgent(BaseAgent):
         
         try:
             choice = response.choices[0]
+            
             if hasattr(choice, 'logprobs') and choice.logprobs:
-                content_logprobs = choice.logprobs.content
-                
-                if content_logprobs:
+                # Try OpenAI format (content) first
+                if hasattr(choice.logprobs, 'content') and choice.logprobs.content:
+                    content_logprobs = choice.logprobs.content
                     for token_logprob in content_logprobs:
                         if hasattr(token_logprob, 'token') and hasattr(token_logprob, 'logprob'):
                             token = token_logprob.token
                             logprob = token_logprob.logprob
                             logprobs_dict[token] = logprob
-                            
-                        # Also extract top logprobs if available
-                        if hasattr(token_logprob, 'top_logprobs'):
-                            for top_logprob in token_logprob.top_logprobs:
-                                if hasattr(top_logprob, 'token') and hasattr(top_logprob, 'logprob'):
-                                    top_token = top_logprob.token
-                                    top_prob = top_logprob.logprob
-                                    # Use a prefix to distinguish top alternatives
-                                    logprobs_dict[f"alt_{top_token}"] = top_prob
-                                    
+                
+                # Try Together AI format (tokens, token_logprobs)
+                elif hasattr(choice.logprobs, 'tokens') and hasattr(choice.logprobs, 'token_logprobs'):
+                    tokens = choice.logprobs.tokens
+                    token_logprobs = choice.logprobs.token_logprobs
+                    
+                    for token, logprob in zip(tokens, token_logprobs):
+                        if token is not None and logprob is not None:
+                            logprobs_dict[token] = logprob
+                        
         except Exception as e:
-            print(f"Warning: Error extracting logprobs: {e}")
-            
+            # Silent fallback - don't print debug info in production
+            pass
         return logprobs_dict
     
     def _build_messages(self, query: str, context: Optional[str] = None) -> List[Dict[str, str]]:
