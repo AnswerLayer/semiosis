@@ -150,7 +150,7 @@ class OllamaAgent(BaseAgent):
                     "prompt_eval_duration": result.get("prompt_eval_duration", 0),
                     "total_duration": result.get("total_duration", 0),
                     "load_duration": result.get("load_duration", 0),
-                    "logprobs_available": True  # Real logprobs, not simulated
+                    "logprobs_available": len(logprobs) > 0  # Only true when real logprobs exist
                 },
                 cost=cost
             )
@@ -277,21 +277,6 @@ class OllamaAgent(BaseAgent):
                     
                     for token, logprob in zip(tokens, logprobs):
                         logprobs_dict[token] = logprob
-                        
-            # Fallback: extract from response text if logprobs not available
-            elif "response" in result:
-                # Generate simple token mapping for compatibility
-                response_text = result["response"]
-                tokens = response_text.split()
-                
-                # Use default logprob values based on token characteristics
-                for token in tokens:
-                    if len(token) <= 2:
-                        logprobs_dict[token] = -0.5  # Short tokens likely common
-                    elif token.isalpha():
-                        logprobs_dict[token] = -1.0  # Regular words
-                    else:
-                        logprobs_dict[token] = -2.0  # Special tokens less likely
                         
         except Exception as e:
             print(f"Warning: Error extracting logprobs: {e}")
