@@ -22,8 +22,8 @@ def test_agent_creation():
         return None
     
     try:
-        # Test with default model
-        config = {'model': 'meta-llama/Llama-3.1-8B-Instruct-Turbo'}
+        # Test with serverless model
+        config = {'model': 'meta-llama/Llama-3.2-3B-Instruct-Turbo'}
         agent = TogetherAgent(config)
         print(f"✓ TogetherAgent created successfully")
         print(f"  Model: {agent.model}")
@@ -47,7 +47,7 @@ def test_factory_integration():
         # Test 'together' type
         config = {
             'type': 'together',
-            'args': {'model': 'mistralai/Mistral-7B-Instruct-v0.2'}
+            'args': {'model': 'mistralai/Mistral-7B-Instruct-v0.3'}
         }
         agent1 = create_agent(config)
         print(f"✓ Factory created {type(agent1).__name__} for 'together' type")
@@ -55,7 +55,7 @@ def test_factory_integration():
         # Test 'hosted' alias
         config2 = {
             'type': 'hosted',
-            'args': {'model': 'codellama/CodeLlama-7b-Instruct-hf'}
+            'args': {'model': 'Qwen/Qwen2.5-7B-Instruct'}
         }
         agent2 = create_agent(config2)
         print(f"✓ Factory created {type(agent2).__name__} for 'hosted' type")
@@ -88,7 +88,7 @@ def test_model_info():
             
         # Test pricing lookup
         print(f"\nPricing examples:")
-        test_model = "meta-llama/Llama-3.1-8B-Instruct-Turbo"
+        test_model = "meta-llama/Llama-3.2-3B-Instruct-Turbo"
         input_price, output_price = TogetherAgent.get_model_pricing(test_model)
         print(f"  {test_model}: ${input_price}/1M input, ${output_price}/1M output")
         

@@ -23,28 +23,29 @@ class TogetherAgent(BaseAgent):
     """
     
     # Model pricing in USD per 1M tokens (input/output where different)
+    # Only serverless models that don't require dedicated endpoints
     MODEL_PRICING = {
-        # Llama Models
-        "meta-llama/Llama-3.1-405B-Instruct-Turbo": (3.50, 3.50),
-        "meta-llama/Llama-3.1-70B-Instruct-Turbo": (0.88, 0.88),
+        # Llama Models (Serverless only)
         "meta-llama/Llama-3.1-8B-Instruct-Turbo": (0.18, 0.18),
-        "meta-llama/Llama-3-8b-chat-hf": (0.10, 0.10),  # Lite version
+        "meta-llama/Llama-3.1-70B-Instruct-Turbo": (0.88, 0.88),
+        "meta-llama/Llama-3-8B-Instruct-Turbo": (0.10, 0.10),
         
-        # Mistral Models
-        "mistralai/Mistral-7B-Instruct-v0.2": (0.20, 0.20),
+        # Mistral Models (Serverless)
+        "mistralai/Mistral-7B-Instruct-v0.3": (0.20, 0.20),
         "mistralai/Mixtral-8x7B-Instruct-v0.1": (0.60, 0.60),
-        "mistralai/Mistral-Small-Instruct-2409": (0.80, 0.80),
         
-        # Code Models
-        "codellama/CodeLlama-7b-Instruct-hf": (0.20, 0.20),
-        "codellama/CodeLlama-13b-Instruct-hf": (0.22, 0.22),
-        "codellama/CodeLlama-34b-Instruct-hf": (0.78, 0.78),
+        # Qwen Models (Often serverless)
+        "Qwen/Qwen2.5-Coder-32B-Instruct": (0.30, 0.30),
+        "Qwen/Qwen2.5-7B-Instruct": (0.15, 0.15),
         
-        # Other Popular Models
-        "microsoft/DialoGPT-medium": (0.20, 0.20),
+        # Other Serverless Models
         "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO": (0.60, 0.60),
         "teknium/OpenHermes-2.5-Mistral-7B": (0.20, 0.20),
         "togethercomputer/RedPajama-INCITE-Chat-3B-v1": (0.10, 0.10),
+        
+        # Llama 3.2 models (likely serverless)
+        "meta-llama/Llama-3.2-3B-Instruct-Turbo": (0.06, 0.06),
+        "meta-llama/Llama-3.2-1B-Instruct-Turbo": (0.04, 0.04),
     }
     
     def __init__(self, config: Dict[str, Any]):
@@ -65,7 +66,7 @@ class TogetherAgent(BaseAgent):
         
         # Extract configuration
         self.api_key = config.get("api_key") or os.getenv("TOGETHER_API_KEY")
-        self.model = config.get("model", "meta-llama/Llama-3.1-8B-Instruct-Turbo")
+        self.model = config.get("model", "meta-llama/Llama-3.2-3B-Instruct-Turbo")
         self.temperature = config.get("temperature", 0.1)
         self.max_tokens = config.get("max_tokens", 1000)
         self.top_p = config.get("top_p", 1.0)
@@ -144,6 +145,10 @@ class TogetherAgent(BaseAgent):
             # Calculate cost
             cost = self._calculate_cost(response)
             
+            # Debug: Check if we got actual data
+            has_usage = response.usage is not None
+            has_logprobs = len(logprobs) > 0
+            
             return AgentResponse(
                 output=output,
                 logprobs=logprobs,
@@ -155,7 +160,7 @@ class TogetherAgent(BaseAgent):
                     "completion_tokens": response.usage.completion_tokens if response.usage else 0,
                     "total_tokens": response.usage.total_tokens if response.usage else 0,
                     "finish_reason": response.choices[0].finish_reason,
-                    "logprobs_available": True,  # Real logprobs from API
+                    "logprobs_available": has_logprobs,  # Real logprobs from API
                     "request_id": getattr(response, 'id', None)
                 },
                 cost=cost
@@ -338,28 +343,28 @@ class TogetherAgent(BaseAgent):
         """
         return [
             {
-                "name": "meta-llama/Llama-3.1-8B-Instruct-Turbo",
-                "description": "Best balance of performance and cost",
-                "pricing": "$0.18/1M tokens",
-                "use_case": "General documentation analysis"
+                "name": "meta-llama/Llama-3.2-3B-Instruct-Turbo",
+                "description": "Small and efficient serverless model",
+                "pricing": "$0.06/1M tokens",
+                "use_case": "Quick documentation analysis"
             },
             {
-                "name": "mistralai/Mistral-7B-Instruct-v0.2",
-                "description": "Fast and efficient for structured data",
-                "pricing": "$0.20/1M tokens", 
-                "use_case": "SQL generation and schema analysis"
+                "name": "Qwen/Qwen2.5-7B-Instruct",
+                "description": "Good balance of performance and cost",
+                "pricing": "$0.15/1M tokens", 
+                "use_case": "General text analysis"
             },
             {
-                "name": "codellama/CodeLlama-7b-Instruct-hf",
+                "name": "Qwen/Qwen2.5-Coder-32B-Instruct",
                 "description": "Specialized for code and documentation",
-                "pricing": "$0.20/1M tokens",
+                "pricing": "$0.30/1M tokens",
                 "use_case": "Code documentation analysis"
             },
             {
-                "name": "meta-llama/Llama-3-8b-chat-hf",
-                "description": "Most cost-effective option",
+                "name": "meta-llama/Llama-3-8B-Instruct-Turbo",
+                "description": "Reliable serverless option",
                 "pricing": "$0.10/1M tokens",
-                "use_case": "Budget-conscious analysis"
+                "use_case": "Balanced analysis tasks"
             }
         ]
     
