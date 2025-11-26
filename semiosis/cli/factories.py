@@ -38,6 +38,13 @@ def create_agent(config: Dict[str, Any]) -> BaseAgent:
         # Alias for ollama (user-friendly name)
         from semiosis.agents.ollama_agent import OllamaAgent
         return OllamaAgent(agent_args)
+    elif agent_type == 'together':
+        from semiosis.agents.together_agent import TogetherAgent
+        return TogetherAgent(agent_args)
+    elif agent_type == 'hosted':
+        # Alias for together (user-friendly name for hosted open source models)
+        from semiosis.agents.together_agent import TogetherAgent
+        return TogetherAgent(agent_args)
     else:
         # For now, return a mock agent for other types
         # This will be expanded as more agent types are implemented

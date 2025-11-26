@@ -5,7 +5,7 @@ Simple test script for OllamaAgent implementation.
 
 import sys
 import os
-sys.path.insert(0, '.')
+sys.path.insert(0, '../../')
 
 from semiosis.agents.ollama_agent import OllamaAgent
 from semiosis.cli.factories import create_agent
