@@ -1,0 +1,41 @@
+repos:
+  # Code formatting
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks:
+      - id: black
+        language_version: python3
+        args: [--line-length=88]
+
+  # Import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--profile=black, --line-length=88]
+
+  # Linting (default configuration)
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+
+  # Type checking (lenient for initial implementation)
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-PyYAML, types-requests]
+        args: [--ignore-missing-imports, --disable-error-code=no-untyped-def, --disable-error-code=no-any-return, --disable-error-code=misc, --disable-error-code=arg-type, --disable-error-code=override, --disable-error-code=assignment, --disable-error-code=var-annotated, --disable-error-code=return-value, --disable-error-code=name-defined, --disable-error-code=attr-defined]
+
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: check-case-conflict

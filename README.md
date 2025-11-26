@@ -12,7 +12,7 @@ Semiosis is an open-source framework for measuring the semantic quality of stati
 
 **The Solution**: Semiosis measures **context system quality** using standardized LLM probes to evaluate:
 - **Completeness**: Does your documentation cover all necessary concepts?
-- **Redundancy**: How much can you remove while maintaining performance?  
+- **Redundancy**: How much can you remove while maintaining performance?
 - **Semantic Density**: How much information per documentation unit?
 - **Robustness**: How gracefully does performance degrade as context is removed?
 - **Critical Boundaries**: What's the minimum viable documentation set?
@@ -80,7 +80,7 @@ semiosis evaluate --interventions corruption,missing_schemas,outdated_docs
 - **Open Source**: Llama, Mistral via Hugging Face Inference API
 - **Cloud Platforms**: AWS Bedrock, Google Vertex AI for enterprise deployment
 
-### Evaluation Environments  
+### Evaluation Environments
 - **Text-to-SQL**: Spider 2.0, BIRD-SQL datasets for database query generation
 - **Code Generation**: Programming task evaluation with execution validation
 - **Custom Domains**: YAML-configurable environments for any documentation type
@@ -97,7 +97,7 @@ Semiosis will implement a rigorous mathematical framework based on semantic info
 
 ```
 Agent state:              𝐚 = (q, y, ℓ, c, b, θ)
-Environment state:        𝐞 = (D, Q, T)  
+Environment state:        𝐞 = (D, Q, T)
 Context system:           𝒮_η = [s₁, …, sₙ]
 Intervention:             𝒮_η' = 𝒮_η + s_{n+1}
 Agent output:             p_θ(y | q, D, 𝒮_η)
@@ -116,7 +116,7 @@ Where agents maintain **trust** (ℓ) through performance and **budget** (b) thr
 
 We welcome contributions! Key areas for community involvement:
 
-- **🌍 Environments**: Create evaluation scenarios for specific domains  
+- **🌍 Environments**: Create evaluation scenarios for specific domains
 - **📚 Context Systems**: Integrate new semantic layer/knowledgebase/documentation technologiess
 
 See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
@@ -162,7 +162,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## 🔗 Links
 
 - **[GitHub Issues](https://github.com/AnswerLayer/semiosis/issues)** - Bug reports and feature requests
-- **[GitHub Discussions](https://github.com/AnswerLayer/semiosis/discussions)** - Community discussion  
+- **[GitHub Discussions](https://github.com/AnswerLayer/semiosis/discussions)** - Community discussion
 - **[AnswerLayer](https://answerlayer.com)** - Parent organization
 
 ---

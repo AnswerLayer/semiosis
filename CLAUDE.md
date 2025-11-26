@@ -79,7 +79,7 @@ semiosis evaluate \
     --context dbt \
     --context-args project_path=./dbt_project
 
-# Custom environment evaluation  
+# Custom environment evaluation
 semiosis evaluate \
     --environment custom \
     --environment-args config_file=./my_env.yaml \
@@ -96,14 +96,14 @@ The framework implements Semantic Information Theory calculations:
 @dataclass
 class AgentState:
     query: str              # q - current query/task
-    output: str             # y - agent's response  
+    output: str             # y - agent's response
     trust: float            # ℓ - accumulated trust
     cost: float             # c - computational cost
     budget: float           # b - remaining resources
     parameters: dict        # θ - model config
 
 # Core SIT Calculations
-def calculate_viability(states: List[AgentState], 
+def calculate_viability(states: List[AgentState],
                        trust_threshold: float) -> float:
     """V(η) = Pr(ℓ > ℓ_min ∧ b > 0)"""
     viable = [s for s in states if s.trust > trust_threshold and s.budget > 0]
@@ -113,7 +113,7 @@ def find_semantic_threshold(viability_curve: List[Tuple[float, float]]) -> float
     """η_c = inf{η | V(η) ≤ ½V(1)}"""
     baseline_viability = viability_curve[0][1]  # V(1) - no context
     threshold_target = 0.5 * baseline_viability
-    
+
     for noise_level, viability in viability_curve:
         if viability <= threshold_target:
             return noise_level
