@@ -42,8 +42,8 @@ class EvaluationRunner:
         self.environment = environment
         self.context_system = context_system
         self.interventions = interventions or []
-        self.results = []
-        self.agent_states = []
+        self.results: List[Dict[str, Any]] = []
+        self.agent_states: List[Any] = []
         self.semiotic_evaluator = SemioticEvaluator()
         self.current_trust = 50.0  # Starting trust value
 
