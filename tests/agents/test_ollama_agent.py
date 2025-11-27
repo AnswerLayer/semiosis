@@ -27,6 +27,9 @@ def test_agent_creation():
         print(f"  Base URL: {agent.base_url}")
         assert agent is not None
         assert hasattr(agent, "model")
+    except ConnectionError as e:
+        print(f"⚠ Ollama server not available (expected in CI): {e}")
+        pytest.skip("Ollama server not running - skipping test")
     except Exception as e:
         print(f"✗ Error creating agent: {e}")
         pytest.fail(f"Error creating agent: {e}")
@@ -49,6 +52,9 @@ def test_factory_integration():
 
         assert agent1 is not None
         assert agent2 is not None
+    except ConnectionError as e:
+        print(f"⚠ Ollama server not available (expected in CI): {e}")
+        pytest.skip("Ollama server not running - skipping test")
     except Exception as e:
         print(f"✗ Factory error: {e}")
         pytest.fail(f"Factory error: {e}")
