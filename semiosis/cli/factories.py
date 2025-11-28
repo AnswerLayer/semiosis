@@ -26,15 +26,7 @@ def create_agent(config: Dict[str, Any]) -> BaseAgent:
     agent_args = config.get("args", {})
 
     # Import implementations dynamically to avoid circular dependencies
-    if agent_type == "openai":
-        from semiosis.agents.openai_agent import OpenAIAgent
-
-        return OpenAIAgent(agent_args)
-    elif agent_type == "anthropic":
-        from semiosis.agents.anthropic_agent import AnthropicAgent
-
-        return AnthropicAgent(agent_args)
-    elif agent_type == "ollama":
+    if agent_type == "ollama":
         from semiosis.agents.ollama_agent import OllamaAgent
 
         return OllamaAgent(agent_args)
@@ -78,10 +70,6 @@ def create_environment(config: Dict[str, Any]) -> BaseEnvironment:
         from semiosis.environments.text_to_sql import TextToSQLEnvironment
 
         return TextToSQLEnvironment(env_args)
-    elif env_type == "custom":
-        from semiosis.environments.custom_environment import CustomEnvironment
-
-        return CustomEnvironment(env_args)
     else:
         # For now, return a mock environment for other types
         from semiosis.environments.mock_environment import MockEnvironment
@@ -104,26 +92,17 @@ def create_context_system(
     if config is None:
         return None
 
-    ctx_type = config.get("type", "").lower()
     ctx_args = config.get("args", {})
 
     # Import implementations dynamically to avoid circular dependencies
-    if ctx_type == "dbt":
-        from semiosis.contexts.dbt_context import DBTContextSystem
+    # For now, return a mock context system for all types
+    # This will be expanded when actual context systems are implemented
+    from semiosis.contexts.mock_context import MockContextSystem
 
-        return DBTContextSystem(ctx_args)
-    elif ctx_type == "custom":
-        from semiosis.contexts.custom_context import CustomContextSystem
-
-        return CustomContextSystem(ctx_args)
-    else:
-        # For now, return a mock context system for other types
-        from semiosis.contexts.mock_context import MockContextSystem
-
-        return MockContextSystem(ctx_args)
+    return MockContextSystem(ctx_args)
 
 
-def _create_component_from_config(component_type: str, config: Dict[str, Any]):
+def _create_component_from_config(component_type: str, config: Dict[str, Any]) -> None:
     """
     Generic helper to create components based on configuration.
 
