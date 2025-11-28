@@ -61,22 +61,19 @@ def test_model_info():
     """Test model information methods."""
     print("\n=== Testing Model Information ===")
 
-    try:
-        available = OllamaAgent.get_available_models()
-        print(f"Available models ({len(available)}):")
-        for model in available:
-            print(f"  - {model}")
+    available = OllamaAgent.get_available_models()
+    print(f"Available models ({len(available)}):")
+    for model in available:
+        print(f"  - {model}")
 
-        print(f"\nRecommended models:")
-        recommended = OllamaAgent.get_recommended_models()
-        for rec in recommended:
-            print(f"  - {rec['name']}: {rec['description']}")
+    print("\nRecommended models:")
+    recommended = OllamaAgent.get_recommended_models()
+    for rec in recommended:
+        print(f"  - {rec['name']}: {rec['description']}")
 
-        assert len(available) >= 0  # May be empty if no server
-        assert len(recommended) >= 0
-    except Exception as e:
-        print(f"✗ Model info error: {e}")
-        pytest.fail(f"Model info error: {e}")
+    # Basic structural checks; allow empty lists if server is unavailable
+    assert isinstance(available, list)
+    assert isinstance(recommended, list)
 
 
 @pytest.mark.requires_api
