@@ -62,7 +62,7 @@ pip install requests openai
 
 ### Expected Test Coverage
 - Agent creation and configuration validation
-- Factory pattern integration 
+- Factory pattern integration
 - Error handling and edge cases
 - Cost calculation accuracy
 - Logprobs extraction (where supported)

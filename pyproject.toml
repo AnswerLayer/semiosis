@@ -15,7 +15,7 @@ maintainers = [
     {name = "Josh Harris", email = "josh@answerlayer.com"}
 ]
 keywords = [
-    "ai", "llm", "evaluation", "semantic-information-theory", 
+    "ai", "llm", "evaluation", "semantic-information-theory",
     "agent-evaluation", "text-to-sql", "dbt"
 ]
 classifiers = [
@@ -159,7 +159,7 @@ python_functions = "test_*"
 addopts = "--cov=semiosis --cov-report=html --cov-report=term-missing"
 markers = [
     "unit: Unit tests",
-    "integration: Integration tests", 
+    "integration: Integration tests",
     "e2e: End-to-end tests",
     "slow: Slow tests",
     "requires_api: Tests requiring API keys",
