@@ -81,47 +81,6 @@ def test_model_info():
 
 @pytest.mark.requires_api
 @pytest.mark.skip(reason="Requires real Ollama agent instance - needs API setup")
-def test_simple_generation():
+def test_simple_generation(agent=None):
     """Test simple response generation with safe model."""
-    print("\n=== Testing Response Generation ===")
-
-    # This test would need a real Ollama instance
-    pytest.skip("Requires Ollama server and API configuration")
-
-
-def main():
-    """Run all tests."""
-    print("Testing OllamaAgent Implementation\n")
-
-    # Run tests
-    agent = test_agent_creation()
-    factory_ok = test_factory_integration()
-    info_ok = test_model_info()
-    generation_ok = test_simple_generation(agent)
-
-    # Summary
-    print("\n=== Test Summary ===")
-    tests = [
-        ("Agent Creation", agent is not None),
-        ("Factory Integration", factory_ok),
-        ("Model Information", info_ok),
-        ("Response Generation", generation_ok),
-    ]
-
-    passed = sum(1 for _, result in tests if result)
-    total = len(tests)
-
-    for name, result in tests:
-        status = "✓" if result else "✗"
-        print(f"{status} {name}")
-
-    print(f"\nResults: {passed}/{total} tests passed")
-
-    if passed == total:
-        print("🎉 All tests passed! OllamaAgent is ready to use.")
-    else:
-        print("⚠ Some tests failed. Check the output above.")
-
-
-if __name__ == "__main__":
-    main()
+    pass  # Test implementation pending
