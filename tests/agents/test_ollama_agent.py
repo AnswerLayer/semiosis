@@ -4,11 +4,8 @@ Simple test script for OllamaAgent implementation.
 """
 
 import os
-import sys
 
 import pytest
-
-sys.path.insert(0, "../../")
 
 from semiosis.agents.ollama_agent import OllamaAgent
 from semiosis.cli.factories import create_agent

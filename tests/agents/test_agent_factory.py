@@ -4,11 +4,8 @@ Test agent factory integration.
 """
 
 import os
-import sys
 
 import pytest
-
-sys.path.insert(0, "../../")
 
 from semiosis.agents.together_agent import TogetherAgent
 from semiosis.cli.factories import create_agent

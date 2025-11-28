@@ -11,9 +11,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-# Add project root to path
+# Project root path (for reference)
 project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
 
 
 def check_prerequisites():
