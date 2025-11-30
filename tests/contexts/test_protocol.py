@@ -141,18 +141,29 @@ class TestInterventions:
         assert metadata["shuffled"] is True
         assert len(metadata["interventions"]) == 2
 
-    def test_intervention_preserves_original(self):
-        """Test that interventions don't modify the original provider."""
-        original_content = "Original content"
+    def test_intervention_mutates_provider(self):
+        """Test that interventions mutate the provider they're applied to."""
+        original_content = "Line 1\nLine 2\nLine 3\nLine 4"
 
-        # Create a new provider instance to ensure we're not sharing state
+        # Create two separate provider instances
         provider1 = SimpleContext(original_content)
         provider2 = SimpleContext(original_content)
 
-        # Apply intervention to provider1
-        remove_percentage(provider1, 0.5)
+        # Apply intervention to provider1 (mutates it)
+        returned = remove_percentage(provider1, 0.5)
 
-        # Check provider2 is unaffected
-        context, metadata = provider2.get_context("query")
-        assert context == original_content
-        assert "interventions" not in metadata
+        # Verify the intervention mutated provider1
+        context1, metadata1 = provider1.get_context("query")
+        assert len(context1.split("\n")) == 2  # 50% of 4 lines
+        assert metadata1["interventions"][0]["name"] == "remove_50%"
+        assert metadata1["interventions"][0]["noise_level"] == 0.5
+        assert metadata1["original_lines"] == 4
+        assert metadata1["kept_lines"] == 2
+
+        # Verify returned is the same object (mutation, not copy)
+        assert returned is provider1
+
+        # Verify provider2 is unaffected (separate instance)
+        context2, metadata2 = provider2.get_context("query")
+        assert context2 == original_content
+        assert "interventions" not in metadata2
