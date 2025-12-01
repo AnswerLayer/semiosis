@@ -87,9 +87,9 @@ class DBTContextSystem:
             with open(manifest_path) as f:
                 self.manifest = json.load(f)
         except json.JSONDecodeError as e:
-            raise ValueError(f"Invalid JSON in manifest.json: {e}")
+            raise ValueError(f"Invalid JSON in manifest.json: {e}") from e
         except Exception as e:
-            raise RuntimeError(f"Failed to load manifest.json: {e}")
+            raise RuntimeError(f"Failed to load manifest.json: {e}") from e
 
     def _format_model(self, model: Dict[str, Any]) -> str:
         """Format a DBT model for LLM context."""
