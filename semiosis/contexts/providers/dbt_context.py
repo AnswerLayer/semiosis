@@ -47,12 +47,12 @@ class DBTContextSystem:
         column_count = 0
 
         # Load models and documentation
-        if self.manifest:
-            for node_id, node in self.manifest.get("nodes", {}).items():
-                if node.get("resource_type") == "model":
-                    model_count += 1
-                    context_parts.append(self._format_model(node))
-                    column_count += len(node.get("columns", {}))
+        assert self.manifest is not None  # _load_manifest() either sets or raises
+        for node_id, node in self.manifest.get("nodes", {}).items():
+            if node.get("resource_type") == "model":
+                model_count += 1
+                context_parts.append(self._format_model(node))
+                column_count += len(node.get("columns", {}))
 
         # Combine all context
         context = "\n\n".join(context_parts) if context_parts else "No models found"

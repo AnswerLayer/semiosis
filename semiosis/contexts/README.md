@@ -60,4 +60,4 @@ To add a new context provider:
 3. Include relevant metadata for metrics
 4. Add tests demonstrating usage
 
-DBT and file system implementations are being added in ANS-412, ANS-413.
+DBT implementation is available; file system implementation coming soon.
