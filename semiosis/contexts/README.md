@@ -1,6 +1,6 @@
 # Context System
 
-The context system in Semiosis provides a simple, extensible way to integrate various knowledge sources into agent evaluations.
+The context system in Semiosis provides a simple, extensible way to load various knowledge sources into agent evaluations.
 
 ## Design Philosophy
 
@@ -11,7 +11,7 @@ We use a minimal protocol-based design:
 
 ## Quick Start
 
-### Implementing a Context Provider
+### Loading a Context Provider
 
 Any object with a `get_context` method works:
 
@@ -30,7 +30,7 @@ Interventions modify context to measure information density:
 ```python
 from semiosis.contexts import remove_percentage, shuffle_content
 
-# Create provider
+# Load your context provider
 provider = MyContext()
 
 # Remove 30% of content
@@ -60,4 +60,4 @@ To add a new context provider:
 3. Include relevant metadata for metrics
 4. Add tests demonstrating usage
 
-DBT and file system implementations will be added in subsequent PRs (ANS-412, ANS-413).
+DBT and file system implementations are being added in ANS-412, ANS-413.

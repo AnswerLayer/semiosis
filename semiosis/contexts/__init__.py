@@ -13,9 +13,11 @@ from .interventions import (
     truncate_context,
 )
 from .protocol import ContextProvider
+from .providers import DBTContextSystem
 
 __all__ = [
     "ContextProvider",
+    "DBTContextSystem",
     "apply_intervention",
     "remove_percentage",
     "shuffle_content",
