@@ -12,8 +12,8 @@ class ContextProvider(Protocol):
     """
     Protocol for any object that can provide context for agent queries.
 
-    Context providers extract relevant information from their source systems
-    (DBT projects, file systems, APIs, etc.) and format it for LLM consumption.
+    Context providers load and format information from their source systems
+    (DBT projects, file systems, APIs, etc.) for LLM consumption.
 
     Example:
         >>> class MyContext:
