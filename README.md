@@ -75,9 +75,8 @@ semiosis evaluate --interventions corruption,missing_schemas,outdated_docs
 ## 🛠️ Planned Integrations
 
 ### Standardized Measurement Probes
-- **Anthropic Claude**: Claude-3.5 Sonnet, Claude-3 Haiku with logprobs extraction
-- **OpenAI**: GPT-4, GPT-4o with token probability measurement
-- **Open Source**: Llama, Mistral via Hugging Face Inference API
+- **Frontier Models**: All your favourites
+- **Open Source Models**: SQLCoder, Kimi K2, Mistral, etc.
 - **Cloud Platforms**: AWS Bedrock, Google Vertex AI for enterprise deployment
 
 ### Evaluation Environments
